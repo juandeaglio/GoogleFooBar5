@@ -65,9 +65,21 @@ public class SolutionUnitTests
         Assertions.assertArrayEquals(statesExpected,statesThatAreTerminating);
     }
     @Test
-    public void GivenAnAmountOfStepsAndAMatrixWhenStartingAtState0ShouldFindProbabilityMatrixForAllTerminatingStates()
+    public void GivenAMatrixWhenStartingAtState0ShouldFindTransitionMatrixAtInitialStep()
     {
         Setup();
+        int[][] matrix =
+                {{0,1,0,0,0,1}
+                ,{4,0,0,3,2,0}
+                ,{0,0,0,0,0,0}
+                ,{0,0,0,0,0,0}
+                ,{0,0,0,0,0,0}
+                ,{0,0,0,0,0,0}
+                };
+        int steps = 0;
+        int[] transitionMatrix = solution.FindTransitionMatrix(matrix, steps);
+        int[] expectedTransitionMatrix = {1,0,0,0,0,0};
+        Assertions.assertArrayEquals(expectedTransitionMatrix,transitionMatrix);
     }
 
 }

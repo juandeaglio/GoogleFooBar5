@@ -27,4 +27,15 @@ public class Solution
         }
         return terminatingStates;
     }
+
+    public int[] FindTransitionMatrix(int[][] matrix, int steps)
+    {
+        int[] transitionMatrix = new int[matrix.length];
+        transitionMatrix[0] = 1; //initial state will always be state0
+        for(int i = 0; i < steps; i++)
+        {
+
+        }
+        return transitionMatrix;
+    }
 }
