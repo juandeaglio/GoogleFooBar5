@@ -4,9 +4,54 @@ public class Solution
     public static void main(String[] args)
     {
     }
-    public int[] ProbabilitiesToReachGivenTerminalStates(int[][]matrix)
+    public int[] ProbabilitiesToReachEndStatesOf(int[][]matrix)
     {
-        int[] result = new int[matrix.length];
+        int[] terminalStates = FindAllTerminatingStates(matrix);
+        Fraction[] probabilityRowVector = GetProbabilityRowVectorOf(matrix);
+        int[] result = GetProbabilitiesOfTerminalStatesAsIntArr(probabilityRowVector,terminalStates);
+        return result;
+    }
+
+    private int[] GetProbabilitiesOfTerminalStatesAsIntArr(Fraction[] probabilityRowVector, int[] terminalStates)
+    {
+        int[] result;
+        int length = 1;
+        for(int i = 0; i < terminalStates.length; i++)
+        {
+            if(terminalStates[i] == 1)
+            {
+                length++;
+            }
+        }
+        result = new int[length];
+        int count = 0;
+
+        int commonDenominator = 1;
+        for(int i = 0; i < probabilityRowVector.length; i++)
+        {
+            if(terminalStates[i] == 1)
+            {
+                commonDenominator = Fraction.lcm(commonDenominator, probabilityRowVector[i].fractionDenominator);
+            }
+        }
+        for(int i = 0; i < result.length; i++)
+        {
+            if(terminalStates[i] == 1 && probabilityRowVector[i].fractionDenominator != commonDenominator)
+            {
+                int factor = commonDenominator / probabilityRowVector[i].fractionDenominator;
+                probabilityRowVector[i].fractionDenominator *= factor;
+                probabilityRowVector[i].fractionNumerator *= factor;
+            }
+        }
+        for(int i = 0; i < probabilityRowVector.length; i++)
+        {
+            if(terminalStates[i] == 1)
+            {
+                result[count] = probabilityRowVector[i].fractionNumerator;
+                count++;
+            }
+        }
+        result[count] = commonDenominator;
         return result;
     }
 

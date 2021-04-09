@@ -13,7 +13,7 @@ public class SolutionUnitTests
     {
         Setup();
         int[][] simplestPossible = {{0,1}, {0,0}};
-        int[] probabilities = solution.ProbabilitiesToReachGivenTerminalStates(simplestPossible);
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(simplestPossible);
         int[] expected = {1,1};
         Assertions.assertArrayEquals(expected,probabilities);
     }
@@ -29,7 +29,7 @@ public class SolutionUnitTests
                 ,{0,0,0,0,0,0}
                 ,{0,0,0,0,0,0}
                 };
-        int[] probabilities = solution.ProbabilitiesToReachGivenTerminalStates(matrix1);
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix1);
         Assertions.assertTrue(true);
         int[] expected = {0,3,2,9,14};
         Assertions.assertArrayEquals(expected,probabilities);
@@ -44,7 +44,7 @@ public class SolutionUnitTests
                 {0,0,0,0,0},
                 {0,0,0,0,0},
                 {0,0,0,0,0}};
-        int[] probabilities = solution.ProbabilitiesToReachGivenTerminalStates(matrix2);
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix2);
         Assertions.assertTrue(true);
         int[] expected = {7,6,8,21};
         Assertions.assertArrayEquals(expected,probabilities);
