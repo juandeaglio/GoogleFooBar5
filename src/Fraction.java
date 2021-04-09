@@ -2,8 +2,6 @@ import java.math.BigInteger;
 
 public class Fraction
 {
-    boolean numeratorContainsBoolean = false;
-    boolean denominatorContainsBoolean = false;
     int fractionNumerator;
     int fractionDenominator;
     Fraction(int numerator, int denominator)
@@ -14,8 +12,6 @@ public class Fraction
     public void SetFractionNumerator(int numerator)
     {
         fractionNumerator = numerator;
-        if(numerator < 0)
-            numeratorContainsBoolean = true;
     }
     public void SetFractionDenominator(int denominator)
     {
@@ -23,8 +19,6 @@ public class Fraction
         {
             throw new IllegalArgumentException();
         }
-        else if(denominator < 0)
-            denominatorContainsBoolean = true;
         fractionDenominator = denominator;
     }
     public Fraction Add(Fraction other)
@@ -43,12 +37,15 @@ public class Fraction
             else
             {
                 int leastCommonMultiple = lcm(fractionDenominator, other.fractionDenominator);
-                int factorOne = leastCommonMultiple/fractionDenominator;
-                int factorTwo = leastCommonMultiple/other.fractionDenominator;
-                
+                int thisFactor = leastCommonMultiple/fractionDenominator;
+                int otherFactor = leastCommonMultiple/other.fractionDenominator;
+                fractionDenominator *= thisFactor;
+                fractionNumerator *= thisFactor;
+                other.fractionDenominator *= otherFactor;
+                other.fractionNumerator *= otherFactor;
             }
         }
-        return new Fraction(1,1);
+        return new Fraction(Math.abs(fractionNumerator) + Math.abs(other.fractionNumerator),Math.abs(fractionDenominator) + Math.abs(other.fractionDenominator) );
     }
     public Fraction Multiply(Fraction other)
     {

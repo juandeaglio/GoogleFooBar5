@@ -38,4 +38,32 @@ public class Solution
         }
         return transitionMatrix;
     }
+
+    public Fraction[][] NormalizeMatrix(int[][] matrix)
+    {
+        Fraction[][] normalizedMatrix = new Fraction[matrix.length][];
+        for(int i = 0; i < matrix.length; i++)
+        {
+            normalizedMatrix[i] = new Fraction[matrix.length];
+            int total = 0;
+            for(int j = 0; j < normalizedMatrix[i].length; j++)
+            {
+                total += matrix[i][j];
+            }
+            if(total == 0)
+            {
+                total = 1;
+            }
+            for(int j = 0; j < normalizedMatrix[i].length; j++)
+            {
+                if(matrix[i][j] == 0)
+                    normalizedMatrix[i][j] = new Fraction(matrix[i][j], 1);
+                else
+                    normalizedMatrix[i][j] = new Fraction(matrix[i][j], total);
+
+                System.out.println(matrix[i][j] + " " + total + " \t" + normalizedMatrix[i][j].fractionNumerator + " " + normalizedMatrix[i][j].fractionDenominator  );
+            }
+        }
+        return normalizedMatrix;
+    }
 }

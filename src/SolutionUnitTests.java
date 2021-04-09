@@ -99,6 +99,28 @@ public class SolutionUnitTests
         Assertions.assertArrayEquals(expectedTransitionMatrix,transitionMatrix);
     }
     @Test
+    public void GivenAMatrixNormalizeToOne()
+    {
+        Setup();
+        int[][] matrix =
+                {{0,1,0,0,0,1}
+                ,{4,0,0,3,2,0}
+                ,{0,0,0,0,0,0}
+                ,{0,0,0,0,0,0}
+                ,{0,0,0,0,0,0}
+                ,{0,0,0,0,0,0}
+                };
+        int steps = 1;
+        Fraction[][] normalizedMatrix = solution.NormalizeMatrix(matrix);
+        Fraction[][] expectedNormalizedMatrix = {{new Fraction(0, 1),new Fraction(1, 2),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(1, 2)},
+                {new Fraction(4, 9),new Fraction(0, 1),new Fraction(0, 1),new Fraction(3, 9),new Fraction(2, 9),new Fraction(0, 1)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)}};
+        Assertions.assertArrayEquals(expectedNormalizedMatrix,normalizedMatrix);
+    }
+    @Test
     public void GivenTwoFractionsShouldAddCorrectly()
     {
         Fraction firstFraction = new Fraction(3,2);
@@ -130,4 +152,5 @@ public class SolutionUnitTests
         Fraction expectedResult = new Fraction(6,5);
         Assertions.assertEquals(expectedResult, firstFraction.Divide(secondFraction));
     }
+
 }
