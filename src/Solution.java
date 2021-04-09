@@ -1,8 +1,10 @@
+import java.math.BigInteger;
 import java.util.Arrays;
 public class Solution
 {
     public static void main(String[] args)
     {
+
     }
     public int[] ProbabilitiesToReachEndStatesOf(int[][]matrix)
     {
@@ -34,7 +36,7 @@ public class Solution
         result = new int[length];
         int count = 0;
 
-        int commonDenominator = 1;
+        BigInteger commonDenominator = BigInteger.ONE;
         for(int i = 0; i < probabilityRowVector.length; i++)
         {
             if(terminalStates[i] == 1)
@@ -44,22 +46,22 @@ public class Solution
         }
         for(int i = 0; i < result.length; i++)
         {
-            if(terminalStates[i] == 1 && probabilityRowVector[i].fractionDenominator != commonDenominator)
+            if(terminalStates[i] == 1 && probabilityRowVector[i].fractionDenominator.compareTo(commonDenominator) != 0)
             {
-                int factor = commonDenominator / probabilityRowVector[i].fractionDenominator;
-                probabilityRowVector[i].fractionDenominator *= factor;
-                probabilityRowVector[i].fractionNumerator *= factor;
+                BigInteger factor = commonDenominator.divide(probabilityRowVector[i].fractionDenominator);
+                probabilityRowVector[i].fractionDenominator =probabilityRowVector[i].fractionDenominator.multiply(factor);
+                probabilityRowVector[i].fractionNumerator = probabilityRowVector[i].fractionNumerator.multiply(factor);
             }
         }
         for(int i = 0; i < probabilityRowVector.length; i++)
         {
             if(terminalStates[i] == 1)
             {
-                result[count] = probabilityRowVector[i].fractionNumerator;
+                result[count] = probabilityRowVector[i].fractionNumerator.intValue();
                 count++;
             }
         }
-        result[count] = commonDenominator;
+        result[count] = commonDenominator.intValue();
         return result;
     }
 
@@ -122,8 +124,8 @@ public class Solution
             {
                 identityMatrix[i][j] = new Fraction();
             }
-            identityMatrix[i][i].fractionNumerator = 1;
-            identityMatrix[i][i].fractionNumerator = 1;
+            identityMatrix[i][i].fractionNumerator = BigInteger.ONE;
+            identityMatrix[i][i].fractionNumerator = BigInteger.ONE;
         }
         return identityMatrix;
     }

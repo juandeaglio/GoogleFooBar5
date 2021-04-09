@@ -2,9 +2,15 @@ import java.math.BigInteger;
 
 public class Fraction
 {
-    int fractionNumerator;
-    int fractionDenominator;
+    BigInteger fractionNumerator;
+    BigInteger fractionDenominator;
     public Fraction(int numerator, int denominator)
+    {
+        SetFractionNumerator(BigInteger.valueOf(numerator));
+        SetFractionDenominator(BigInteger.valueOf(denominator));
+        SimplifyFraction(this);
+    }
+    public Fraction(BigInteger numerator, BigInteger denominator)
     {
         SetFractionNumerator(numerator);
         SetFractionDenominator(denominator);
@@ -12,47 +18,53 @@ public class Fraction
     }
     public Fraction(int numerator)
     {
-        SetFractionNumerator(numerator);
-        SetFractionDenominator(1);
+        SetFractionNumerator(BigInteger.valueOf(numerator));
+        SetFractionDenominator(BigInteger.ONE);
     }
     public Fraction()
     {
-        SetFractionNumerator(0);
-        SetFractionDenominator(1);
+        SetFractionNumerator(BigInteger.ZERO);
+        SetFractionDenominator(BigInteger.ONE);
     }
-    public void SetFractionNumerator(int numerator)
+    public void SetFractionNumerator(BigInteger numerator)
     {
         fractionNumerator = numerator;
     }
-    public void SetFractionDenominator(int denominator)
+    public void SetFractionDenominator(BigInteger denominator)
     {
-        if(denominator == 0)
+        if(denominator.compareTo(BigInteger.ZERO) == 0)
         {
             throw new IllegalArgumentException();
         }
-        fractionDenominator = denominator;
+        else if(denominator.compareTo(BigInteger.ZERO) < 0 )
+        {
+            fractionNumerator = fractionNumerator.negate();
+            fractionDenominator = denominator.negate();
+        }
+        else
+            fractionDenominator = denominator;
     }
     public Fraction Add(Fraction other)
     {
         formLikeDenominators(this, other);
-        return new Fraction(fractionNumerator + other.fractionNumerator, fractionDenominator);
+        return new Fraction(fractionNumerator.add(other.fractionNumerator), fractionDenominator);
     }
     public Fraction Subtract(Fraction other)
     {
         formLikeDenominators(this, other);
-        return new Fraction(fractionNumerator - other.fractionNumerator, Math.abs(Math.abs(fractionDenominator)));
+        return new Fraction(fractionNumerator.subtract(other.fractionNumerator), fractionDenominator);
     }
     public Fraction Multiply(Fraction other)
     {
-        return new Fraction(fractionNumerator * other.fractionNumerator, fractionDenominator * other.fractionDenominator);
+        return new Fraction(fractionNumerator.multiply(other.fractionNumerator), fractionDenominator.multiply(other.fractionDenominator));
     }
     public Fraction Divide(Fraction other)
     {
-        if(other.fractionNumerator == 0)
+        if(other.fractionNumerator.compareTo(BigInteger.ZERO) == 0)
         {
             throw new IllegalArgumentException();
         }
-        return new Fraction(fractionNumerator * other.fractionDenominator, fractionDenominator * other.fractionNumerator);
+        return new Fraction(fractionNumerator.multiply(other.fractionDenominator), fractionDenominator.multiply( other.fractionNumerator));
     }
     @Override
     public boolean equals(Object obj)
@@ -61,62 +73,61 @@ public class Fraction
         if(obj.getClass().getTypeName().compareTo("Fraction") == 0)
         {
             compareTo = (Fraction) obj;
-            return fractionNumerator == compareTo.fractionNumerator && fractionDenominator == compareTo.fractionDenominator;
+            return fractionNumerator.compareTo(compareTo.fractionNumerator) == 0 && fractionDenominator.compareTo(compareTo.fractionDenominator) == 0;
         }
         else
             return false;
     }
-    public static int gcd(int a, int b)
+    public static BigInteger lcm(BigInteger number1, BigInteger number2)
     {
-        return BigInteger.valueOf(a).gcd(BigInteger.valueOf(b)).intValue();
-    }
-    public static int lcm(int number1, int number2) {
-        if (number1 == 0 || number2 == 0) {
-            return 0;
+        if (number1.compareTo(BigInteger.ZERO) == 0 || number2.compareTo(BigInteger.ZERO) == 0)
+        {
+            return BigInteger.ZERO;
         }
-        int absNumber1 = Math.abs(number1);
-        int absNumber2 = Math.abs(number2);
-        int absHigherNumber = Math.max(absNumber1, absNumber2);
-        int absLowerNumber = Math.min(absNumber1, absNumber2);
-        int lcm = absHigherNumber;
-        while (lcm % absLowerNumber != 0) {
-            lcm += absHigherNumber;
+        BigInteger absNumber1 = number1.abs();
+        BigInteger absNumber2 = number2.abs();
+        BigInteger absHigherNumber = absNumber1.max(absNumber2);
+        BigInteger absLowerNumber = absNumber1.min(absNumber2);
+        BigInteger lcm = absHigherNumber;
+        while (lcm.mod(absLowerNumber).compareTo(BigInteger.ZERO) != 0)
+        {
+            lcm = lcm.add(absHigherNumber);
         }
         return lcm;
     }
     private static void formLikeDenominators(Fraction current, Fraction other) {
         if(other.fractionDenominator != current.fractionDenominator)
         {
-            int commonDenominator = gcd(current.fractionDenominator, other.fractionDenominator);
-            if(commonDenominator == 1)
+            BigInteger commonDenominator = current.fractionDenominator.gcd(other.fractionDenominator);
+            if(commonDenominator.compareTo(BigInteger.ZERO) == 0)
             {
-                int tempOther = other.fractionDenominator;
-                other.fractionDenominator *= current.fractionDenominator;
-                other.fractionNumerator *= current.fractionDenominator;
-                current.fractionDenominator *= tempOther;
-                current.fractionNumerator *= tempOther;
+                BigInteger tempOther = other.fractionDenominator;
+                other.fractionDenominator = other.fractionDenominator.multiply(current.fractionDenominator);
+                other.fractionNumerator = other.fractionNumerator.multiply(current.fractionDenominator);
+                current.fractionDenominator = current.fractionDenominator.multiply(tempOther);
+                current.fractionNumerator = current.fractionNumerator.multiply(tempOther);
             }
             else
             {
-                int leastCommonMultiple = lcm(current.fractionDenominator, other.fractionDenominator);
-                int thisFactor = leastCommonMultiple/current.fractionDenominator;
-                int otherFactor = leastCommonMultiple/ other.fractionDenominator;
-                current.fractionDenominator *= thisFactor;
-                current.fractionNumerator *= thisFactor;
-                other.fractionDenominator *= otherFactor;
-                other.fractionNumerator *= otherFactor;
+                BigInteger leastCommonMultiple = lcm(current.fractionDenominator, other.fractionDenominator);
+                BigInteger thisFactor = leastCommonMultiple.divide(current.fractionDenominator);
+                BigInteger otherFactor = leastCommonMultiple.divide(other.fractionDenominator);
+                current.fractionDenominator = current.fractionDenominator.multiply(thisFactor);
+                current.fractionNumerator =current.fractionNumerator.multiply(thisFactor);
+                other.fractionDenominator =other.fractionDenominator.multiply(otherFactor);
+                other.fractionNumerator = other.fractionNumerator.multiply(otherFactor);
             }
         }
     }
     public static void SimplifyFraction(Fraction fraction)
     {
-        int factor = gcd(fraction.fractionNumerator,fraction.fractionDenominator);
-        fraction.fractionNumerator/=factor;
-        fraction.fractionDenominator/=factor;
-        if(fraction.fractionNumerator < 0 && fraction.fractionDenominator < 0)
+        BigInteger factor = fraction.fractionNumerator.gcd(fraction.fractionDenominator);
+        fraction.fractionNumerator= fraction.fractionNumerator.divide(factor);
+        fraction.fractionDenominator= fraction.fractionDenominator.divide(factor);
+        if(fraction.fractionNumerator.compareTo(BigInteger.ZERO) < 0 && fraction.fractionDenominator.compareTo(BigInteger.ZERO) < 0)
         {
-            fraction.fractionDenominator = -fraction.fractionDenominator;
-            fraction.fractionNumerator = -fraction.fractionNumerator;
+            fraction.fractionDenominator = fraction.fractionDenominator.negate();
+            fraction.fractionNumerator = fraction.fractionNumerator.negate();
         }
     }
 }
