@@ -4,11 +4,21 @@ public class Fraction
 {
     int fractionNumerator;
     int fractionDenominator;
-    Fraction(int numerator, int denominator)
+    public Fraction(int numerator, int denominator)
     {
         SetFractionNumerator(numerator);
         SetFractionDenominator(denominator);
         SimplifyFraction(this);
+    }
+    public Fraction(int numerator)
+    {
+        SetFractionNumerator(numerator);
+        SetFractionDenominator(1);
+    }
+    public Fraction()
+    {
+        SetFractionNumerator(0);
+        SetFractionDenominator(1);
     }
     public void SetFractionNumerator(int numerator)
     {
@@ -25,16 +35,16 @@ public class Fraction
     public Fraction Add(Fraction other)
     {
         formLikeDenominators(this, other);
-        return new Fraction(Math.abs(fractionNumerator) + Math.abs(other.fractionNumerator), fractionDenominator);
+        return new Fraction(fractionNumerator + other.fractionNumerator, fractionDenominator);
     }
     public Fraction Subtract(Fraction other)
     {
         formLikeDenominators(this, other);
-        return new Fraction(Math.abs(Math.abs(fractionNumerator) - Math.abs(other.fractionNumerator)), Math.abs(Math.abs(fractionDenominator)));
+        return new Fraction(fractionNumerator - other.fractionNumerator, Math.abs(Math.abs(fractionDenominator)));
     }
     public Fraction Multiply(Fraction other)
     {
-        return new Fraction(Math.abs(fractionNumerator) * Math.abs(other.fractionNumerator), Math.abs(fractionDenominator) * Math.abs(other.fractionDenominator));
+        return new Fraction(fractionNumerator * other.fractionNumerator, fractionDenominator * other.fractionDenominator);
     }
     public Fraction Divide(Fraction other)
     {
@@ -42,7 +52,7 @@ public class Fraction
         {
             throw new IllegalArgumentException();
         }
-        return new Fraction(Math.abs(fractionNumerator) * Math.abs(other.fractionDenominator), Math.abs(fractionDenominator) * Math.abs(other.fractionNumerator));
+        return new Fraction(fractionNumerator * other.fractionDenominator, fractionDenominator * other.fractionNumerator);
     }
     @Override
     public boolean equals(Object obj)
@@ -103,5 +113,10 @@ public class Fraction
         int factor = gcd(fraction.fractionNumerator,fraction.fractionDenominator);
         fraction.fractionNumerator/=factor;
         fraction.fractionDenominator/=factor;
+        if(fraction.fractionNumerator < 0 && fraction.fractionDenominator < 0)
+        {
+            fraction.fractionDenominator = -fraction.fractionDenominator;
+            fraction.fractionNumerator = -fraction.fractionNumerator;
+        }
     }
 }

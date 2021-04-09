@@ -7,39 +7,38 @@ public class Matrix
             throw new IllegalStateException("invalid dimensions");
 
         if (matrix.length == 2)
-            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+            return matrix[0][0].Multiply(matrix[1][1]).Subtract(matrix[0][1].Multiply(matrix[1][0]));
 
-        double det = 0;
+        Fraction det = new Fraction();
         for (int i = 0; i < matrix[0].length; i++)
-            det += Math.pow(-1, i) * matrix[0][i]
-                    * determinant(minor(matrix, 0, i));
+            det = det.Add(new Fraction((int)Math.pow(-1, i)).Multiply(matrix[0][i]).Multiply(determinant(minor(matrix, 0, i))));
         return det;
     }
 
     public Fraction[][] inverse(Fraction[][] matrix) {
-        double[][] inverse = new double[matrix.length][matrix.length];
+        Fraction[][] inverse = new Fraction[matrix.length][matrix.length];
 
         // minors and cofactors
         for (int i = 0; i < matrix.length; i++)
             for (int j = 0; j < matrix[i].length; j++)
-                inverse[i][j] = Math.pow(-1, i + j)
-                        * determinant(minor(matrix, i, j));
+            {
+                inverse[i][j] = new Fraction((int)Math.pow(-1, i + j)).Multiply(determinant(minor(matrix, i, j)));
+            }
 
         // adjugate and determinant
-        double det = 1.0 / determinant(matrix);
+        Fraction det = new Fraction(1).Divide(determinant(matrix));
         for (int i = 0; i < inverse.length; i++) {
             for (int j = 0; j <= i; j++) {
-                double temp = inverse[i][j];
-                inverse[i][j] = inverse[j][i] * det;
-                inverse[j][i] = temp * det;
+                Fraction temp = inverse[i][j];
+                inverse[i][j] = inverse[j][i].Multiply(det);
+                inverse[j][i] = temp.Multiply(det);
             }
         }
-
         return inverse;
     }
 
     private Fraction[][] minor(Fraction[][] matrix, int row, int column) {
-        double[][] minor = new double[matrix.length - 1][matrix.length - 1];
+        Fraction[][] minor = new Fraction[matrix.length - 1][matrix.length - 1];
 
         for (int i = 0; i < matrix.length; i++)
             for (int j = 0; i != row && j < matrix[i].length; j++)

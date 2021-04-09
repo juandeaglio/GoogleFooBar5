@@ -78,7 +78,7 @@ public class Solution
             identityMatrix[i] = new Fraction[size];
             for(int j = 0; j < size ;j++)
             {
-                identityMatrix[i][j] = new Fraction(0,0);
+                identityMatrix[i][j] = new Fraction();
             }
             identityMatrix[i][i].fractionNumerator = 1;
             identityMatrix[i][i].fractionNumerator = 1;
