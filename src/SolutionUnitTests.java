@@ -126,7 +126,8 @@ public class SolutionUnitTests
         Fraction firstFraction = new Fraction(3,2);
         Fraction secondFraction = new Fraction(6,4);
         Fraction expectedResult = new Fraction(3,1);
-        Assertions.assertEquals(expectedResult, firstFraction.Add(secondFraction));
+        Fraction resultActual = firstFraction.Add(secondFraction);
+        Assertions.assertTrue(expectedResult.equals(resultActual));
     }
     @Test
     public void GivenTwoFractionsShouldSubtractCorrectly()
@@ -134,7 +135,7 @@ public class SolutionUnitTests
         Fraction firstFraction = new Fraction(3,2);
         Fraction secondFraction = new Fraction(5,4);
         Fraction expectedResult = new Fraction(1,4);
-        Assertions.assertEquals(expectedResult, firstFraction.Add(secondFraction));
+        Assertions.assertTrue(expectedResult.equals(firstFraction.Subtract(secondFraction)));
     }
     @Test
     public void GivenTwoFractionsShouldMultiplyCorrectly()
@@ -142,7 +143,7 @@ public class SolutionUnitTests
         Fraction firstFraction = new Fraction(3,2);
         Fraction secondFraction = new Fraction(5,4);
         Fraction expectedResult = new Fraction(15,8);
-        Assertions.assertEquals(expectedResult, firstFraction.Multiply(secondFraction));
+        Assertions.assertTrue(expectedResult.equals(firstFraction.Multiply(secondFraction)));
     }
     @Test
     public void GivenTwoFractionsShouldDivideCorrectly()
@@ -150,7 +151,7 @@ public class SolutionUnitTests
         Fraction firstFraction = new Fraction(3,2);
         Fraction secondFraction = new Fraction(5,4);
         Fraction expectedResult = new Fraction(6,5);
-        Assertions.assertEquals(expectedResult, firstFraction.Divide(secondFraction));
+        Assertions.assertTrue(expectedResult.equals(firstFraction.Divide(secondFraction)));
     }
     @Test
     public void GivenAMatrixShouldNormalizeThenGetTheInverse()

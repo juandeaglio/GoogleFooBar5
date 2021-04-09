@@ -8,6 +8,7 @@ public class Fraction
     {
         SetFractionNumerator(numerator);
         SetFractionDenominator(denominator);
+        SimplifyFraction(this);
     }
     public void SetFractionNumerator(int numerator)
     {
@@ -23,29 +24,13 @@ public class Fraction
     }
     public Fraction Add(Fraction other)
     {
-        if(other.fractionDenominator != fractionDenominator)
-        {
-            int commonDenominator = gcd(fractionDenominator, other.fractionDenominator);
-            if(commonDenominator == 1)
-            {
-                int tempOther = other.fractionDenominator;
-                other.fractionDenominator *= fractionDenominator;
-                other.fractionNumerator *= fractionDenominator;
-                fractionDenominator *= tempOther;
-                fractionNumerator *= tempOther;
-            }
-            else
-            {
-                int leastCommonMultiple = lcm(fractionDenominator, other.fractionDenominator);
-                int thisFactor = leastCommonMultiple/fractionDenominator;
-                int otherFactor = leastCommonMultiple/other.fractionDenominator;
-                fractionDenominator *= thisFactor;
-                fractionNumerator *= thisFactor;
-                other.fractionDenominator *= otherFactor;
-                other.fractionNumerator *= otherFactor;
-            }
-        }
-        return new Fraction(Math.abs(fractionNumerator) + Math.abs(other.fractionNumerator),Math.abs(fractionDenominator) + Math.abs(other.fractionDenominator) );
+        formLikeDenominators(this, other);
+        return new Fraction(Math.abs(fractionNumerator) + Math.abs(other.fractionNumerator), fractionDenominator);
+    }
+    public Fraction Subtract(Fraction other)
+    {
+        formLikeDenominators(this, other);
+        return new Fraction(Math.abs(Math.abs(fractionNumerator) - Math.abs(other.fractionNumerator)), Math.abs(Math.abs(fractionDenominator)));
     }
     public Fraction Multiply(Fraction other)
     {
@@ -58,10 +43,6 @@ public class Fraction
             throw new IllegalArgumentException();
         }
         return new Fraction(Math.abs(fractionNumerator) * Math.abs(other.fractionDenominator), Math.abs(fractionDenominator) * Math.abs(other.fractionNumerator));
-    }
-    public Fraction Subtract(Fraction other)
-    {
-        return new Fraction(Math.abs(Math.abs(fractionNumerator) - Math.abs(other.fractionNumerator)), Math.abs((Math.abs(fractionDenominator) - Math.abs(other.fractionDenominator))));
     }
     @Override
     public boolean equals(Object obj)
@@ -92,5 +73,35 @@ public class Fraction
             lcm += absHigherNumber;
         }
         return lcm;
+    }
+    private static void formLikeDenominators(Fraction current, Fraction other) {
+        if(other.fractionDenominator != current.fractionDenominator)
+        {
+            int commonDenominator = gcd(current.fractionDenominator, other.fractionDenominator);
+            if(commonDenominator == 1)
+            {
+                int tempOther = other.fractionDenominator;
+                other.fractionDenominator *= current.fractionDenominator;
+                other.fractionNumerator *= current.fractionDenominator;
+                current.fractionDenominator *= tempOther;
+                current.fractionNumerator *= tempOther;
+            }
+            else
+            {
+                int leastCommonMultiple = lcm(current.fractionDenominator, other.fractionDenominator);
+                int thisFactor = leastCommonMultiple/current.fractionDenominator;
+                int otherFactor = leastCommonMultiple/ other.fractionDenominator;
+                current.fractionDenominator *= thisFactor;
+                current.fractionNumerator *= thisFactor;
+                other.fractionDenominator *= otherFactor;
+                other.fractionNumerator *= otherFactor;
+            }
+        }
+    }
+    public static void SimplifyFraction(Fraction fraction)
+    {
+        int factor = gcd(fraction.fractionNumerator,fraction.fractionDenominator);
+        fraction.fractionNumerator/=factor;
+        fraction.fractionDenominator/=factor;
     }
 }

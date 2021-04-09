@@ -60,7 +60,6 @@ public class Solution
                 else
                     normalizedMatrix[i][j] = new Fraction(matrix[i][j], total);
 
-                System.out.println(matrix[i][j] + " " + total + " \t" + normalizedMatrix[i][j].fractionNumerator + " " + normalizedMatrix[i][j].fractionDenominator  );
             }
         }
         return normalizedMatrix;
