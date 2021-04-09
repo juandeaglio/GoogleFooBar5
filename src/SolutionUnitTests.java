@@ -152,5 +152,28 @@ public class SolutionUnitTests
         Fraction expectedResult = new Fraction(6,5);
         Assertions.assertEquals(expectedResult, firstFraction.Divide(secondFraction));
     }
+    @Test
+    public void GivenAMatrixShouldNormalizeThenGetTheInverse()
+    {
+        Setup();
+        int[][] matrix =
+                {{0,1,0,0,0,1}
+                        ,{4,0,0,3,2,0}
+                        ,{0,0,0,0,0,0}
+                        ,{0,0,0,0,0,0}
+                        ,{0,0,0,0,0,0}
+                        ,{0,0,0,0,0,0}
+                };
+        int steps = 1;
+        Fraction[][] normalizedMatrix = solution.NormalizeMatrix(matrix);
+        Fraction[][] inverseMatrix = solution.GetInverseOf(normalizedMatrix);
 
+        Fraction[][] expectedInverseMatrix = {{new Fraction(9, 7),new Fraction(-9, 14),new Fraction(0, 1),new Fraction(3, 14),new Fraction(1, 7),new Fraction(-9, 14)},
+                {new Fraction(-4, 7),new Fraction(9, 7),new Fraction(0, 1),new Fraction(-3, 7),new Fraction(-2, 7),new Fraction(2, 7)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)},
+                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)}};
+        Assertions.assertArrayEquals(expectedInverseMatrix,inverseMatrix);
+    }
 }
