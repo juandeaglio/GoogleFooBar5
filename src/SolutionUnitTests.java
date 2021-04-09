@@ -81,5 +81,53 @@ public class SolutionUnitTests
         int[] expectedTransitionMatrix = {1,0,0,0,0,0};
         Assertions.assertArrayEquals(expectedTransitionMatrix,transitionMatrix);
     }
-
+    @Test
+    public void GivenAMatrixWhenStartingAtState0ShouldFindTransitionMatrixAfterOneStep()
+    {
+        Setup();
+        int[][] matrix =
+                {{0,1,0,0,0,1}
+                        ,{4,0,0,3,2,0}
+                        ,{0,0,0,0,0,0}
+                        ,{0,0,0,0,0,0}
+                        ,{0,0,0,0,0,0}
+                        ,{0,0,0,0,0,0}
+                };
+        int steps = 1;
+        int[] transitionMatrix = solution.FindTransitionMatrix(matrix, steps);
+        int[] expectedTransitionMatrix = {1,0,0,0,0,0};
+        Assertions.assertArrayEquals(expectedTransitionMatrix,transitionMatrix);
+    }
+    @Test
+    public void GivenTwoFractionsShouldAddCorrectly()
+    {
+        Fraction firstFraction = new Fraction(3,2);
+        Fraction secondFraction = new Fraction(6,4);
+        Fraction expectedResult = new Fraction(3,1);
+        Assertions.assertEquals(expectedResult, firstFraction.Add(secondFraction));
+    }
+    @Test
+    public void GivenTwoFractionsShouldSubtractCorrectly()
+    {
+        Fraction firstFraction = new Fraction(3,2);
+        Fraction secondFraction = new Fraction(5,4);
+        Fraction expectedResult = new Fraction(1,4);
+        Assertions.assertEquals(expectedResult, firstFraction.Add(secondFraction));
+    }
+    @Test
+    public void GivenTwoFractionsShouldMultiplyCorrectly()
+    {
+        Fraction firstFraction = new Fraction(3,2);
+        Fraction secondFraction = new Fraction(5,4);
+        Fraction expectedResult = new Fraction(15,8);
+        Assertions.assertEquals(expectedResult, firstFraction.Multiply(secondFraction));
+    }
+    @Test
+    public void GivenTwoFractionsShouldDivideCorrectly()
+    {
+        Fraction firstFraction = new Fraction(3,2);
+        Fraction secondFraction = new Fraction(5,4);
+        Fraction expectedResult = new Fraction(6,5);
+        Assertions.assertEquals(expectedResult, firstFraction.Divide(secondFraction));
+    }
 }
