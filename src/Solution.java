@@ -67,7 +67,37 @@ public class Solution
 
     public Fraction[][] GetInverseOf(Fraction[][] normalizedMatrix)
     {
-        Fraction[][] inverseMatrix = normalizedMatrix;
-        return inverseMatrix;
+        return new Matrix().inverse(Subtract(GetIdentityMatrixSizeOf(normalizedMatrix.length), normalizedMatrix));
+    }
+
+    public Fraction[][] GetIdentityMatrixSizeOf(int size)
+    {
+        Fraction[][] identityMatrix = new Fraction[size][];
+        for(int i = 0; i < size; i++)
+        {
+            identityMatrix[i] = new Fraction[size];
+            for(int j = 0; j < size ;j++)
+            {
+                identityMatrix[i][j] = new Fraction(0,0);
+            }
+            identityMatrix[i][i].fractionNumerator = 1;
+            identityMatrix[i][i].fractionNumerator = 1;
+        }
+        return identityMatrix;
+    }
+    public Fraction[][] Subtract(Fraction[][] from, Fraction[][] with)
+    {
+        if(from.length != with.length && from[0].length != with[0].length)
+            throw new IllegalArgumentException("Dimensions must be equal");
+        Fraction[][] result = new Fraction[from.length][];
+        for(int i = 0; i < from.length; i++)
+        {
+            result[i] = new Fraction[from.length];
+            for(int j = 0; j < from.length; j++)
+            {
+                result[i][j] = from[i][j].Subtract(with[i][j]);
+            }
+        }
+        return result;
     }
 }
