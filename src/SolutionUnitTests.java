@@ -65,7 +65,7 @@ public class SolutionUnitTests
         Assertions.assertArrayEquals(statesExpected,statesThatAreTerminating);
     }
     @Test
-    public void GivenAMatrixWhenStartingAtState0ShouldFindTransitionMatrixAtInitialStep()
+    public void GivenAMatrixShouldFindProbabilityRowVector()
     {
         Setup();
         int[][] matrix =
@@ -76,27 +76,9 @@ public class SolutionUnitTests
                 ,{0,0,0,0,0,0}
                 ,{0,0,0,0,0,0}
                 };
-        int steps = 0;
-        int[] transitionMatrix = solution.FindTransitionMatrix(matrix, steps);
-        int[] expectedTransitionMatrix = {1,0,0,0,0,0};
-        Assertions.assertArrayEquals(expectedTransitionMatrix,transitionMatrix);
-    }
-    @Test
-    public void GivenAMatrixWhenStartingAtState0ShouldFindTransitionMatrixAfterOneStep()
-    {
-        Setup();
-        int[][] matrix =
-                {{0,1,0,0,0,1}
-                        ,{4,0,0,3,2,0}
-                        ,{0,0,0,0,0,0}
-                        ,{0,0,0,0,0,0}
-                        ,{0,0,0,0,0,0}
-                        ,{0,0,0,0,0,0}
-                };
-        int steps = 1;
-        int[] transitionMatrix = solution.FindTransitionMatrix(matrix, steps);
-        int[] expectedTransitionMatrix = {1,0,0,0,0,0};
-        Assertions.assertArrayEquals(expectedTransitionMatrix,transitionMatrix);
+        Fraction[] probabilityRowMatrix = solution.GetProbabilityRowVectorOf(matrix);
+        Fraction[] expectedTransitionMatrix = {new Fraction(9,7),new Fraction(9,14),new Fraction(),new Fraction(3,14),new Fraction(1,7),new Fraction(9,14)};
+        Assertions.assertArrayEquals(expectedTransitionMatrix,probabilityRowMatrix);
     }
     @Test
     public void GivenAMatrixNormalizeToOne()

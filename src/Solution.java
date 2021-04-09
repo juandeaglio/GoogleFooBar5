@@ -27,17 +27,6 @@ public class Solution
         return terminatingStates;
     }
 
-    public int[] FindTransitionMatrix(int[][] matrix, int steps)
-    {
-        int[] transitionMatrix = new int[matrix.length];
-        transitionMatrix[0] = 1; //initial state will always be state0
-        for(int i = 0; i < steps; i++)
-        {
-
-        }
-        return transitionMatrix;
-    }
-
     public Fraction[][] NormalizeMatrix(int[][] matrix)
     {
         Fraction[][] normalizedMatrix = new Fraction[matrix.length][];
@@ -99,5 +88,12 @@ public class Solution
             }
         }
         return result;
+    }
+
+    public Fraction[] GetProbabilityRowVectorOf(int[][] matrix)
+    {
+        Fraction[][] normalizedMatrix = NormalizeMatrix(matrix);
+        Fraction[] probabilityRowVector = GetInverseOf(normalizedMatrix)[0];
+        return probabilityRowVector;
     }
 }
