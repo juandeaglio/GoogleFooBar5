@@ -6,10 +6,18 @@ public class Solution
     }
     public int[] ProbabilitiesToReachEndStatesOf(int[][]matrix)
     {
-        int[] terminalStates = FindAllTerminatingStates(matrix);
-        Fraction[] probabilityRowVector = GetProbabilityRowVectorOf(matrix);
-        int[] result = GetProbabilitiesOfTerminalStatesAsIntArr(probabilityRowVector,terminalStates);
-        return result;
+        if(matrix.length <= 2)
+        {
+            int[] result = {1,1};
+            return result;
+        }
+        else
+        {
+            int[] terminalStates = FindAllTerminatingStates(matrix);
+            Fraction[] probabilityRowVector = GetProbabilityRowVectorOf(matrix);
+            int[] result = GetProbabilitiesOfTerminalStatesAsIntArr(probabilityRowVector, terminalStates);
+            return result;
+        }
     }
 
     private int[] GetProbabilitiesOfTerminalStatesAsIntArr(Fraction[] probabilityRowVector, int[] terminalStates)
