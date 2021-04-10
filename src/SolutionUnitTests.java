@@ -198,7 +198,7 @@ public class SolutionUnitTests
         Assertions.assertTrue(expectedResult.equals(actualResult));
     }
     @Test
-    public void GivenALargeMatrixShouldReturn14049_8434_4709_8806_4816_3493_36643()
+    public void GivenALargeMatrixShouldReturn28419_20380_9889_18566_6986_3173_87413()
     {
         Setup();
         int[][]matrix = {
@@ -214,11 +214,11 @@ public class SolutionUnitTests
                 {0,0,0,0,0,0,0,0,0,0}};
         int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
         Assertions.assertTrue(true);
-        int[] expected = {14049,8434,4709,8806,4816,3493,36643};
+        int[] expected = {28419,20380,9889,18566,6986,3173,87413};
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
-    public void GivenAMediumEmptyMatrixShouldReturn1_1()
+    public void GivenALargeEmptyMatrixShouldReturn1_0_0_0_0_0_0_0_0_0_1()
     {
         Setup();
         int[][]matrix = {
@@ -235,6 +235,48 @@ public class SolutionUnitTests
         int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
         Assertions.assertTrue(true);
         int[] expected = {1,0,0,0,0,0,0,0,0,0,1};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
+    public void GivenAMediumEmptyMatrixShouldReturn1_0_0_0_1()
+    {
+        Setup();
+        int[][]matrix = {
+                {0,0,0,0},
+                {0,0,0,0},
+                {0,0,0,0},
+                {0,0,0,0}};
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
+        Assertions.assertTrue(true);
+        int[] expected = {1,0,0,0,1};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
+    public void GivenASmallMatrixWithOnlyOneTerminatingStateShouldReturn1_1()
+    {
+        Setup();
+        int[][]matrix = {
+                {4,3,0,0},
+                {1,0,4,0},
+                {2,0,0,1},
+                {0,0,0,0}};
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
+        Assertions.assertTrue(true);
+        int[] expected = {1,1};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
+    public void GivenASmallMatrixWithAllButOneTerminatingStateShouldReturnTheFractionsOfInitialState()
+    {
+        Setup();
+        int[][]matrix = {
+                {4,3,2,22},
+                {0,0,0,0},
+                {0,0,0,0},
+                {0,0,0,0}};
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
+        Assertions.assertTrue(true);
+        int[] expected = {3,2,22,27};
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
