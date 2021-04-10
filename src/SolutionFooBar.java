@@ -1,9 +1,7 @@
 import java.math.BigInteger;
 import java.util.Arrays;
-public class SolutionFooBar
-{
-    public static void main(String[] args)
-    {
+public class SolutionFooBar {
+    public static void main(String[] args) {
         /*int[][]matrix = {
                 {6,1345,845,5345345,5,3,2,4,1,0},
                 {56345,2,2,2,2,2,2,2,2,0},
@@ -15,7 +13,7 @@ public class SolutionFooBar
                 {0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0}};*/
-        int[][]matrix = {
+        /*int[][]matrix = {
                 {6,2,4,2,5,3,2,4,1,0},
                 {5,2,2,2,2,2,2,2,2,0},
                 {4,2,0,0,4,4,0,0,0,1},
@@ -25,7 +23,18 @@ public class SolutionFooBar
                 {0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0,0}};
+                {0,0,0,0,0,0,0,0,0,0}};*/
+        int[][] matrix = {
+                {0, 1, 1, 1, 1, 2, 0, 0, 0, 1},
+                {3, 0, 0, 1, 0, 0, 2, 2, 2, 0},
+                {1, 2, 0, 4, 1, 1, 1, 0, 0, 6},
+                {2, 2, 0, 0, 1, 1, 1, 1, 1, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
         /*int[][]matrix = {
                 {0,2,0,0,0,2},
                 {4,0,0,3,2,0},
@@ -35,15 +44,12 @@ public class SolutionFooBar
                 {0,0,0,0,0,0}};*/
         System.out.println(Arrays.toString(ProbabilitiesToReachEndStatesOf(matrix)));
     }
-    public static int[] ProbabilitiesToReachEndStatesOf(int[][]matrix)
-    {
-        if(matrix.length <= 2)
-        {
-            int[] result = {1,1};
+
+    public static int[] ProbabilitiesToReachEndStatesOf(int[][] matrix) {
+        if (matrix.length <= 2) {
+            int[] result = {1, 1};
             return result;
-        }
-        else
-        {
+        } else {
             int[] terminalStates = FindAllTerminatingStates(matrix);
             Fraction[] probabilityRowVector = GetProbabilityRowVectorOf(matrix);
             int[] result = GetProbabilitiesOfTerminalStatesAsIntArr(probabilityRowVector, terminalStates);
@@ -65,7 +71,7 @@ public class SolutionFooBar
         result = new int[length];
         int count = 0;
 
-        int commonDenominator = 1;
+        BigInteger commonDenominator = BigInteger.ONE;
         for(int i = 0; i < probabilityRowVector.length; i++)
         {
             if(terminalStates[i] == 1)
@@ -75,35 +81,31 @@ public class SolutionFooBar
         }
         for(int i = 0; i < result.length; i++)
         {
-            if(terminalStates[i] == 1 && probabilityRowVector[i].fractionDenominator != commonDenominator)
+            if(terminalStates[i] == 1 && probabilityRowVector[i].fractionDenominator.compareTo(commonDenominator) != 0)
             {
-                int factor = commonDenominator / probabilityRowVector[i].fractionDenominator;
-                probabilityRowVector[i].fractionDenominator *= factor;
-                probabilityRowVector[i].fractionNumerator *= factor;
+                BigInteger factor = commonDenominator.divide(probabilityRowVector[i].fractionDenominator);
+                probabilityRowVector[i].fractionDenominator =probabilityRowVector[i].fractionDenominator.multiply(factor);
+                probabilityRowVector[i].fractionNumerator = probabilityRowVector[i].fractionNumerator.multiply(factor);
             }
         }
         for(int i = 0; i < probabilityRowVector.length; i++)
         {
             if(terminalStates[i] == 1)
             {
-                result[count] = probabilityRowVector[i].fractionNumerator;
+                result[count] = probabilityRowVector[i].fractionNumerator.intValue();
                 count++;
             }
         }
-        result[count] = commonDenominator;
+        result[count] = commonDenominator.intValue();
         return result;
     }
 
-    public static int[] FindAllTerminatingStates(int[][] matrix)
-    {
+    public static int[] FindAllTerminatingStates(int[][] matrix) {
         int[] terminatingStates = new int[matrix.length];
-        Arrays.fill(terminatingStates,1);
-        for(int i = 0; i < matrix.length; i++)
-        {
-            for(int j = 0; j < matrix.length; j++)
-            {
-                if(matrix[i][j] > 0)
-                {
+        Arrays.fill(terminatingStates, 1);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[i][j] > 0) {
                     terminatingStates[i] = 0;
                 }
             }
@@ -111,24 +113,19 @@ public class SolutionFooBar
         return terminatingStates;
     }
 
-    public static Fraction[][] NormalizeMatrix(int[][] matrix)
-    {
+    public static Fraction[][] NormalizeMatrix(int[][] matrix) {
         Fraction[][] normalizedMatrix = new Fraction[matrix.length][];
-        for(int i = 0; i < matrix.length; i++)
-        {
+        for (int i = 0; i < matrix.length; i++) {
             normalizedMatrix[i] = new Fraction[matrix.length];
             int total = 0;
-            for(int j = 0; j < normalizedMatrix[i].length; j++)
-            {
+            for (int j = 0; j < normalizedMatrix[i].length; j++) {
                 total += matrix[i][j];
             }
-            if(total == 0)
-            {
+            if (total == 0) {
                 total = 1;
             }
-            for(int j = 0; j < normalizedMatrix[i].length; j++)
-            {
-                if(matrix[i][j] == 0)
+            for (int j = 0; j < normalizedMatrix[i].length; j++) {
+                if (matrix[i][j] == 0)
                     normalizedMatrix[i][j] = new Fraction(matrix[i][j], 1);
                 else
                     normalizedMatrix[i][j] = new Fraction(matrix[i][j], total);
@@ -138,8 +135,7 @@ public class SolutionFooBar
         return normalizedMatrix;
     }
 
-    public static Fraction[][] GetInverseOf(Fraction[][] normalizedMatrix)
-    {
+    public static Fraction[][] GetInverseOf(Fraction[][] normalizedMatrix) {
         return new Matrix().inverse(Subtract(GetIdentityMatrixSizeOf(normalizedMatrix.length), normalizedMatrix));
     }
 
@@ -153,37 +149,33 @@ public class SolutionFooBar
             {
                 identityMatrix[i][j] = new Fraction();
             }
-            identityMatrix[i][i].fractionNumerator = 1;
-            identityMatrix[i][i].fractionNumerator = 1;
+            identityMatrix[i][i].fractionNumerator = BigInteger.ONE;
+            identityMatrix[i][i].fractionNumerator = BigInteger.ONE;
         }
         return identityMatrix;
     }
-    public static Fraction[][] Subtract(Fraction[][] from, Fraction[][] with)
-    {
-        if(from.length != with.length && from[0].length != with[0].length)
+
+    public static Fraction[][] Subtract(Fraction[][] from, Fraction[][] with) {
+        if (from.length != with.length && from[0].length != with[0].length)
             throw new IllegalArgumentException("Dimensions must be equal");
         Fraction[][] result = new Fraction[from.length][];
-        for(int i = 0; i < from.length; i++)
-        {
+        for (int i = 0; i < from.length; i++) {
             result[i] = new Fraction[from.length];
-            for(int j = 0; j < from.length; j++)
-            {
+            for (int j = 0; j < from.length; j++) {
                 result[i][j] = from[i][j].Subtract(with[i][j]);
             }
         }
         return result;
     }
 
-    public static Fraction[] GetProbabilityRowVectorOf(int[][] matrix)
-    {
+    public static Fraction[] GetProbabilityRowVectorOf(int[][] matrix) {
         Fraction[][] normalizedMatrix = NormalizeMatrix(matrix);
         Fraction[] probabilityRowVector = GetInverseOf(normalizedMatrix)[0];
         return probabilityRowVector;
     }
-    public static class Matrix
-    {
-        private Fraction determinant(Fraction[][] matrix)
-        {
+
+    public static class Matrix {
+        private Fraction determinant(Fraction[][] matrix) {
             if (matrix.length != matrix[0].length)
                 throw new IllegalStateException("invalid dimensions");
 
@@ -192,7 +184,7 @@ public class SolutionFooBar
 
             Fraction det = new Fraction();
             for (int i = 0; i < matrix[0].length; i++)
-                det = det.Add(new Fraction((int)Math.pow(-1, i)).Multiply(matrix[0][i]).Multiply(determinant(minor(matrix, 0, i))));
+                det = det.Add(new Fraction((int) Math.pow(-1, i)).Multiply(matrix[0][i]).Multiply(determinant(minor(matrix, 0, i))));
             return det;
         }
 
@@ -201,9 +193,8 @@ public class SolutionFooBar
 
             // minors and cofactors
             for (int i = 0; i < matrix.length; i++)
-                for (int j = 0; j < matrix[i].length; j++)
-                {
-                    inverse[i][j] = new Fraction((int)Math.pow(-1, i + j)).Multiply(determinant(minor(matrix, i, j)));
+                for (int j = 0; j < matrix[i].length; j++) {
+                    inverse[i][j] = new Fraction((int) Math.pow(-1, i + j)).Multiply(determinant(minor(matrix, i, j)));
                 }
 
             // adjugate and determinant
@@ -229,56 +220,66 @@ public class SolutionFooBar
         }
 
     }
+
     public static class Fraction {
-        int fractionNumerator;
-        int fractionDenominator;
+        BigInteger fractionNumerator;
+        BigInteger fractionDenominator;
 
         public Fraction(int numerator, int denominator) {
+            SetFractionNumerator(BigInteger.valueOf(numerator));
+            SetFractionDenominator(BigInteger.valueOf(denominator));
+            SimplifyFraction(this);
+        }
+
+        public Fraction(BigInteger numerator, BigInteger denominator) {
             SetFractionNumerator(numerator);
             SetFractionDenominator(denominator);
             SimplifyFraction(this);
         }
 
         public Fraction(int numerator) {
-            SetFractionNumerator(numerator);
-            SetFractionDenominator(1);
+            SetFractionNumerator(BigInteger.valueOf(numerator));
+            SetFractionDenominator(BigInteger.ONE);
         }
 
         public Fraction() {
-            SetFractionNumerator(0);
-            SetFractionDenominator(1);
+            SetFractionNumerator(BigInteger.ZERO);
+            SetFractionDenominator(BigInteger.ONE);
         }
 
-        public void SetFractionNumerator(int numerator) {
+        public void SetFractionNumerator(BigInteger numerator) {
             fractionNumerator = numerator;
         }
 
-        public void SetFractionDenominator(int denominator) {
-            if (denominator == 0) {
+        public void SetFractionDenominator(BigInteger denominator) {
+            if (denominator.compareTo(BigInteger.ZERO) == 0) {
                 throw new IllegalArgumentException();
-            }
-            fractionDenominator = denominator;
+            } else if (denominator.compareTo(BigInteger.ZERO) < 0) {
+                fractionNumerator = fractionNumerator.negate();
+                fractionDenominator = denominator.negate();
+            } else
+                fractionDenominator = denominator;
         }
 
         public Fraction Add(Fraction other) {
             formLikeDenominators(this, other);
-            return new Fraction(fractionNumerator + other.fractionNumerator, fractionDenominator);
+            return new Fraction(fractionNumerator.add(other.fractionNumerator), fractionDenominator);
         }
 
         public Fraction Subtract(Fraction other) {
             formLikeDenominators(this, other);
-            return new Fraction(fractionNumerator - other.fractionNumerator, Math.abs(Math.abs(fractionDenominator)));
+            return new Fraction(fractionNumerator.subtract(other.fractionNumerator), fractionDenominator);
         }
 
         public Fraction Multiply(Fraction other) {
-            return new Fraction(fractionNumerator * other.fractionNumerator, fractionDenominator * other.fractionDenominator);
+            return new Fraction(fractionNumerator.multiply(other.fractionNumerator), fractionDenominator.multiply(other.fractionDenominator));
         }
 
         public Fraction Divide(Fraction other) {
-            if (other.fractionNumerator == 0) {
+            if (other.fractionNumerator.compareTo(BigInteger.ZERO) == 0) {
                 throw new IllegalArgumentException();
             }
-            return new Fraction(fractionNumerator * other.fractionDenominator, fractionDenominator * other.fractionNumerator);
+            return new Fraction(fractionNumerator.multiply(other.fractionDenominator), fractionDenominator.multiply(other.fractionNumerator));
         }
 
         @Override
@@ -286,58 +287,54 @@ public class SolutionFooBar
             Fraction compareTo;
             if (obj.getClass().getTypeName().compareTo("Fraction") == 0) {
                 compareTo = (Fraction) obj;
-                return fractionNumerator == compareTo.fractionNumerator && fractionDenominator == compareTo.fractionDenominator;
+                return fractionNumerator.compareTo(compareTo.fractionNumerator) == 0 && fractionDenominator.compareTo(compareTo.fractionDenominator) == 0;
             } else
                 return false;
         }
 
-        public static int gcd(int a, int b) {
-            return BigInteger.valueOf(a).gcd(BigInteger.valueOf(b)).intValue();
-        }
-
-        public static int lcm(int number1, int number2) {
-            if (number1 == 0 || number2 == 0) {
-                return 0;
+        public static BigInteger lcm(BigInteger number1, BigInteger number2) {
+            if (number1.compareTo(BigInteger.ZERO) == 0 || number2.compareTo(BigInteger.ZERO) == 0) {
+                return BigInteger.ZERO;
             }
-            int absNumber1 = Math.abs(number1);
-            int absNumber2 = Math.abs(number2);
-            int absHigherNumber = Math.max(absNumber1, absNumber2);
-            int absLowerNumber = Math.min(absNumber1, absNumber2);
-            int lcm = absHigherNumber;
-            while (lcm % absLowerNumber != 0) {
-                lcm += absHigherNumber;
+            BigInteger absNumber1 = number1.abs();
+            BigInteger absNumber2 = number2.abs();
+            BigInteger absHigherNumber = absNumber1.max(absNumber2);
+            BigInteger absLowerNumber = absNumber1.min(absNumber2);
+            BigInteger lcm = absHigherNumber;
+            while (lcm.mod(absLowerNumber).compareTo(BigInteger.ZERO) != 0) {
+                lcm = lcm.add(absHigherNumber);
             }
             return lcm;
         }
 
         private static void formLikeDenominators(Fraction current, Fraction other) {
-            if (other.fractionDenominator != current.fractionDenominator) {
-                int commonDenominator = gcd(current.fractionDenominator, other.fractionDenominator);
-                if (commonDenominator == 1) {
-                    int tempOther = other.fractionDenominator;
-                    other.fractionDenominator *= current.fractionDenominator;
-                    other.fractionNumerator *= current.fractionDenominator;
-                    current.fractionDenominator *= tempOther;
-                    current.fractionNumerator *= tempOther;
+            if (other.fractionDenominator.compareTo(current.fractionDenominator) != 0) {
+                BigInteger commonDenominator = current.fractionDenominator.gcd(other.fractionDenominator);
+                if (commonDenominator.compareTo(BigInteger.ZERO) == 0) {
+                    BigInteger tempOther = other.fractionDenominator;
+                    other.fractionDenominator = other.fractionDenominator.multiply(current.fractionDenominator);
+                    other.fractionNumerator = other.fractionNumerator.multiply(current.fractionDenominator);
+                    current.fractionDenominator = current.fractionDenominator.multiply(tempOther);
+                    current.fractionNumerator = current.fractionNumerator.multiply(tempOther);
                 } else {
-                    int leastCommonMultiple = lcm(current.fractionDenominator, other.fractionDenominator);
-                    int thisFactor = leastCommonMultiple / current.fractionDenominator;
-                    int otherFactor = leastCommonMultiple / other.fractionDenominator;
-                    current.fractionDenominator *= thisFactor;
-                    current.fractionNumerator *= thisFactor;
-                    other.fractionDenominator *= otherFactor;
-                    other.fractionNumerator *= otherFactor;
+                    BigInteger leastCommonMultiple = lcm(current.fractionDenominator, other.fractionDenominator);
+                    BigInteger thisFactor = leastCommonMultiple.divide(current.fractionDenominator);
+                    BigInteger otherFactor = leastCommonMultiple.divide(other.fractionDenominator);
+                    current.fractionDenominator = current.fractionDenominator.multiply(thisFactor);
+                    current.fractionNumerator = current.fractionNumerator.multiply(thisFactor);
+                    other.fractionDenominator = other.fractionDenominator.multiply(otherFactor);
+                    other.fractionNumerator = other.fractionNumerator.multiply(otherFactor);
                 }
             }
         }
 
         public static void SimplifyFraction(Fraction fraction) {
-            int factor = gcd(fraction.fractionNumerator, fraction.fractionDenominator);
-            fraction.fractionNumerator /= factor;
-            fraction.fractionDenominator /= factor;
-            if (fraction.fractionNumerator < 0 && fraction.fractionDenominator < 0) {
-                fraction.fractionDenominator = -fraction.fractionDenominator;
-                fraction.fractionNumerator = -fraction.fractionNumerator;
+            BigInteger factor = fraction.fractionNumerator.gcd(fraction.fractionDenominator);
+            fraction.fractionNumerator = fraction.fractionNumerator.divide(factor);
+            fraction.fractionDenominator = fraction.fractionDenominator.divide(factor);
+            if (fraction.fractionNumerator.compareTo(BigInteger.ZERO) < 0 && fraction.fractionDenominator.compareTo(BigInteger.ZERO) < 0) {
+                fraction.fractionDenominator = fraction.fractionDenominator.negate();
+                fraction.fractionNumerator = fraction.fractionNumerator.negate();
             }
         }
     }

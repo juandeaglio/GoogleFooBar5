@@ -96,7 +96,7 @@ public class Fraction
         return lcm;
     }
     private static void formLikeDenominators(Fraction current, Fraction other) {
-        if(other.fractionDenominator != current.fractionDenominator)
+        if(other.fractionDenominator.compareTo(current.fractionDenominator) != 0)
         {
             BigInteger commonDenominator = current.fractionDenominator.gcd(other.fractionDenominator);
             if(commonDenominator.compareTo(BigInteger.ZERO) == 0)

@@ -198,6 +198,43 @@ public class SolutionUnitTests
         Assertions.assertTrue(expectedResult.equals(actualResult));
     }
     @Test
+    public void GivenALargeMatrixShouldReturn23383_20380_14925_18566_6986_3173_87413()
+    {
+        Setup();
+        int[][]matrix = {
+                {6,2,4,2,5,3,2,4,1,0},
+                {5,2,2,2,2,2,2,2,2,0},
+                {4,2,0,0,4,4,0,0,0,1},
+                {2,2,3,2,4,5,1,2,5,6},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0}};
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
+        Assertions.assertTrue(true);
+        int[] expected = {23383,20380,14925,18566,6986,3173,87413};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
+    public void GivenAMediumMatrixShouldReturn1561_2825_625_546_546_1956_8059()
+    {
+        Setup();
+        int[][] matrix = {
+                {0, 1, 1, 4, 0, 0, 7},
+                {0, 0, 6, 5, 0, 1, 1},
+                {2, 0, 0, 3, 1, 1, 0},
+                {3, 2, 0, 0, 4, 5, 1},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0}};
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
+        Assertions.assertTrue(true);
+        int[] expected = {361,466,1680,2583};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
     public void GivenAMatrixShouldNormalizeSubtractFromIdentityThenGetTheInverse()
     {
         Setup();
