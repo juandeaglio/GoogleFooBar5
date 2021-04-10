@@ -4,7 +4,15 @@ public class Solution
 {
     public static void main(String[] args)
     {
+        int[][]matrix = {
+                {0,2,0,0,0,2},
+                {4,0,0,3,2,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0}};
 
+        //System.out.println(Arrays.toString(ProbabilitiesToReachEndStatesOf(matrix)));
     }
     public int[] ProbabilitiesToReachEndStatesOf(int[][]matrix)
     {
@@ -148,7 +156,69 @@ public class Solution
     public Fraction[] GetProbabilityRowVectorOf(int[][] matrix)
     {
         Fraction[][] normalizedMatrix = NormalizeMatrix(matrix);
+        int[] terminatingStates = FindAllTerminatingStates(matrix);
+        Fraction[][] standardForm = GetStandardFormOf(normalizedMatrix, terminatingStates);
         Fraction[] probabilityRowVector = GetInverseOf(normalizedMatrix)[0];
         return probabilityRowVector;
+    }
+
+    public Fraction[][] GetStandardFormOf(Fraction[][] normalizedMatrix, int[] terminatingStates)
+    {
+        Fraction[][] standardFormMatrix = new Fraction[normalizedMatrix.length][];
+        int count = 0;
+        int count2;
+        for(int i = 0; i < terminatingStates.length; i++)
+        {
+            count2 = 0;
+            if(terminatingStates[i] == 1)
+            {
+                standardFormMatrix[count] = new Fraction[normalizedMatrix.length];
+                for(int j = 0; j < terminatingStates.length; j++)
+                {
+                    if(terminatingStates[j] == 1)
+                    {
+                        standardFormMatrix[count][count2] = normalizedMatrix[i][j];
+                        count2++;
+                    }
+
+                }
+                for(int j = 0; j < terminatingStates.length; j++)
+                {
+                    if(terminatingStates[j] == 0)
+                    {
+                        standardFormMatrix[count][count2] = normalizedMatrix[i][j];
+                        count2++;
+                    }
+                }
+                count++;
+            }
+        }
+        for(int i = 0; i < terminatingStates.length; i++)
+        {
+            count2 = 0;
+            if(terminatingStates[i] == 0)
+            {
+                standardFormMatrix[count] = new Fraction[normalizedMatrix.length];
+                for(int j = 0; j < terminatingStates.length; j++)
+                {
+                    if(terminatingStates[j] == 1)
+                    {
+                        standardFormMatrix[count][count2] = normalizedMatrix[i][j];
+                        count2++;
+                    }
+
+                }
+                for(int j = 0; j < terminatingStates.length; j++)
+                {
+                    if(terminatingStates[j] == 0)
+                    {
+                        standardFormMatrix[count][count2] = normalizedMatrix[i][j];
+                        count2++;
+                    }
+                }
+                count++;
+            }
+        }
+        return standardFormMatrix;
     }
 }
