@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.Arrays;
 public class Matrix
 {
@@ -26,7 +27,7 @@ public class Matrix
         {
             if(changeSign(i) == -1)
             {
-                sum = sum.Add(matrix[0][i].Multiply(determinant(createSubMatrix(matrix, 0, i))).Multiply(new Fraction(-1)));
+                sum = sum.Add(matrix[0][i].Multiply(determinant(createSubMatrix(matrix, 0, i))).Negate());
             }
             else
                 sum = sum.Add(matrix[0][i].Multiply(determinant(createSubMatrix(matrix, 0, i))));
@@ -48,7 +49,6 @@ public class Matrix
         {
             if (i==excluding_row)
                 continue;
-            //mat[i] = new Fraction[matrix.length];
             r++;
             int c = -1;
             for (int j=0;j<matrix.length;j++)
@@ -56,6 +56,10 @@ public class Matrix
                 if (j==excluding_col)
                     continue;
                 //mat[i][j] = new Fraction();
+                if(matrix[i][j].fractionNumerator.compareTo(BigInteger.valueOf(9473)) == 0)
+                {
+                    boolean yes = true;
+                }
                 mat[r][++c] = matrix[i][j];
             }
         }
@@ -69,11 +73,19 @@ public class Matrix
             for (int j=0; j<matrix.length;j++)
             {
                 mat[i][j] = new Fraction();
+                if(mat[i][j].fractionNumerator.compareTo(BigInteger.valueOf(9473)) == 0)
+                {
+                    boolean yes = true;
+                }
                 mat[i][j] = determinant(createSubMatrix(matrix, i, j));
+                if(mat[i][j].fractionNumerator.compareTo(BigInteger.valueOf(1384573680)) == 0)
+                {
+                    boolean yes = true;
+                }
                 if(changeSign(i) == -1)
-                    mat[i][j] =  mat[i][j].Multiply(new Fraction(-1));
+                    mat[i][j] =  mat[i][j].Negate();
                 if(changeSign(j) == -1)
-                    mat[i][j] =  mat[i][j].Multiply(new Fraction(-1));
+                    mat[i][j] =  mat[i][j].Negate();
             }
         }
 
@@ -81,14 +93,23 @@ public class Matrix
     }
     public static Fraction[][] inverse(Fraction[][] matrix) throws IllegalArgumentException
     {
+        if(matrix[0][4].fractionNumerator.compareTo(BigInteger.valueOf(-5)) == 0)
+        {
+            boolean yes = true;
+        }
         Fraction[][] inversedMatrix = transpose(cofactor(matrix));
         for(int i = 0; i < matrix.length; i++)
         {
             for(int j = 0; j < matrix.length; j++)
             {
+                if(inversedMatrix[i][j].fractionNumerator.compareTo(BigInteger.valueOf(9473)) == 0)
+                {
+                    boolean yes = true;
+                }
                 inversedMatrix[i][j] = inversedMatrix[i][j].Divide(determinant(matrix));
             }
         }
         return inversedMatrix;
     }
 }
+//87413

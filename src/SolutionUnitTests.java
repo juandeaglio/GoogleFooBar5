@@ -198,7 +198,7 @@ public class SolutionUnitTests
         Assertions.assertTrue(expectedResult.equals(actualResult));
     }
     @Test
-    public void GivenALargeMatrixShouldReturn23383_20380_14925_18566_6986_3173_87413()
+    public void GivenALargeMatrixShouldReturn14049_8434_4709_8806_4816_3493_36643()
     {
         Setup();
         int[][]matrix = {
@@ -214,7 +214,7 @@ public class SolutionUnitTests
                 {0,0,0,0,0,0,0,0,0,0}};
         int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
         Assertions.assertTrue(true);
-        int[] expected = {23383,20380,14925,18566,6986,3173,87413};
+        int[] expected = {14049,8434,4709,8806,4816,3493,36643};
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
@@ -231,7 +231,7 @@ public class SolutionUnitTests
                 {0, 0, 0, 0, 0, 0, 0}};
         int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
         Assertions.assertTrue(true);
-        int[] expected = {361,466,1680,2583};
+        int[] expected = {2147,2770,9436,14353};
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test

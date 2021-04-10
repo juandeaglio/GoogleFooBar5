@@ -28,6 +28,10 @@ public class Fraction
     }
     public void SetFractionNumerator(BigInteger numerator)
     {
+        if(numerator.compareTo(BigInteger.valueOf(1384573680)) == 0)
+        {
+            boolean yes = true;
+        }
         fractionNumerator = numerator;
     }
     public void SetFractionDenominator(BigInteger denominator)
@@ -129,5 +133,15 @@ public class Fraction
             fraction.fractionDenominator = fraction.fractionDenominator.negate();
             fraction.fractionNumerator = fraction.fractionNumerator.negate();
         }
+        if(fraction.fractionNumerator.compareTo(BigInteger.valueOf(28419)) == 0)
+        {
+            boolean yes = true;
+        }
+    }
+
+    public Fraction Negate()
+    {
+        fractionNumerator = fractionNumerator.negate();
+        return this;
     }
 }
