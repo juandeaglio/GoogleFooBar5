@@ -218,6 +218,26 @@ public class SolutionUnitTests
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
+    public void GivenAMediumEmptyMatrixShouldReturn1_1()
+    {
+        Setup();
+        int[][]matrix = {
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0,0}};
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
+        Assertions.assertTrue(true);
+        int[] expected = {1,0,0,0,0,0,0,0,0,0,1};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
     public void GivenAMediumMatrixShouldReturn1561_2825_625_546_546_1956_8059()
     {
         Setup();

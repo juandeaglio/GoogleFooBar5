@@ -44,7 +44,7 @@ public class Solution
                 commonDenominator = Fraction.lcm(commonDenominator, probabilityRowVector[i].fractionDenominator);
             }
         }
-        for(int i = 0; i < result.length; i++)
+        for(int i = 0; i < terminalStates.length; i++)
         {
             if(terminalStates[i] == 1 && probabilityRowVector[i].fractionDenominator.compareTo(commonDenominator) != 0)
             {
