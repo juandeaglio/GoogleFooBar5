@@ -238,7 +238,7 @@ public class SolutionUnitTests
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
-    public void GivenAMediumEmptyMatrixShouldReturn1_0_0_0_1()
+    public void GivenASmallEmptyMatrixShouldReturn1_0_0_0_1()
     {
         Setup();
         int[][]matrix = {
@@ -249,6 +249,20 @@ public class SolutionUnitTests
         int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
         Assertions.assertTrue(true);
         int[] expected = {1,0,0,0,1};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
+    public void GivenASmallMatrixShouldReturn1_0_0_0_1()
+    {
+        Setup();
+        int[][]matrix = {
+                {0,0,0,0},
+                {0,0,0,0},
+                {1,0,0,0},
+                {8,1,1,5}};
+        int[] probabilities = solution.ProbabilitiesToReachEndStatesOf(matrix);
+        Assertions.assertTrue(true);
+        int[] expected = {1,0,1};
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
