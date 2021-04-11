@@ -252,27 +252,6 @@ public class SolutionUnitTests
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
-    public void GivenASmallMatrixShouldReturnStandardFormMatrix()
-    {
-        Setup();
-        int[][]matrix = {
-                {0,3,3,4},
-                {0,0,0,0},
-                {0,0,0,0},
-                {8,1,1,0}};
-
-        int[] terminatingStates = solution.FindAllTerminatingStates(matrix);
-        Fraction[][] normalizedMatrix = solution.NormalizeMatrix(matrix);
-        Fraction[][] probabilities = solution.GetStandardFormOf(normalizedMatrix, terminatingStates);
-        Assertions.assertTrue(true);
-        Fraction[][] expected = {
-                {new Fraction(),new Fraction(),new Fraction(),new Fraction()},
-                {new Fraction(),new Fraction(),new Fraction(),new Fraction()},
-                {new Fraction(3,10),new Fraction(3,10),new Fraction(),new Fraction(2,5)},
-                {new Fraction(1/10),new Fraction(1/10),new Fraction(4/5),new Fraction()}};
-        Assertions.assertArrayEquals(expected,probabilities);
-    }
-    @Test
     public void GivenASmallMatrixShouldReturn1_0_0_0_1()
     {
         Setup();
