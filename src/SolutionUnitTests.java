@@ -95,7 +95,7 @@ public class SolutionUnitTests
                 ,{0,0,0,0,0,0}
                 };
         Fraction[] probabilityRowMatrix = solution.GetProbabilityRowVectorOf(matrix);
-        Fraction[] expectedTransitionMatrix = {new Fraction(9,7),new Fraction(9,14),new Fraction(),new Fraction(3,14),new Fraction(1,7),new Fraction(9,14)};
+        Fraction[] expectedTransitionMatrix = {new Fraction(0), new Fraction(3,14),new Fraction(1,7), new Fraction(9,14)};
         Assertions.assertArrayEquals(expectedTransitionMatrix,probabilityRowMatrix);
     }
     @Test
@@ -252,6 +252,27 @@ public class SolutionUnitTests
         Assertions.assertArrayEquals(expected,probabilities);
     }
     @Test
+    public void GivenASmallMatrixShouldReturnStandardFormMatrix()
+    {
+        Setup();
+        int[][]matrix = {
+                {0,3,3,4},
+                {0,0,0,0},
+                {0,0,0,0},
+                {8,1,1,0}};
+
+        int[] terminatingStates = solution.FindAllTerminatingStates(matrix);
+        Fraction[][] normalizedMatrix = solution.NormalizeMatrix(matrix);
+        Fraction[][] probabilities = solution.GetStandardFormOf(normalizedMatrix, terminatingStates);
+        Assertions.assertTrue(true);
+        Fraction[][] expected = {
+                {new Fraction(),new Fraction(),new Fraction(),new Fraction()},
+                {new Fraction(),new Fraction(),new Fraction(),new Fraction()},
+                {new Fraction(3,10),new Fraction(3,10),new Fraction(),new Fraction(2,5)},
+                {new Fraction(1/10),new Fraction(1/10),new Fraction(4/5),new Fraction()}};
+        Assertions.assertArrayEquals(expected,probabilities);
+    }
+    @Test
     public void GivenASmallMatrixShouldReturn1_0_0_0_1()
     {
         Setup();
@@ -309,29 +330,5 @@ public class SolutionUnitTests
         Assertions.assertTrue(true);
         int[] expected = {2147,2770,9436,14353};
         Assertions.assertArrayEquals(expected,probabilities);
-    }
-    @Test
-    public void GivenAMatrixShouldNormalizeSubtractFromIdentityThenGetTheInverse()
-    {
-        Setup();
-        int[][] matrix =
-                {{0,1,0,0,0,1}
-                ,{4,0,0,3,2,0}
-                ,{0,0,0,0,0,0}
-                ,{0,0,0,0,0,0}
-                ,{0,0,0,0,0,0}
-                ,{0,0,0,0,0,0}
-                };
-        Fraction[][] normalizedMatrix = solution.NormalizeMatrix(matrix);
-        Fraction[][] inverseMatrix = solution.GetInverseOf(normalizedMatrix);
-
-        Fraction[][] expectedInverseMatrix = {{new Fraction(9, 7),new Fraction(9, 14),new Fraction(0, 1),new Fraction(3, 14),new Fraction(1, 7),new Fraction(9, 14)},
-                {new Fraction(4, 7),new Fraction(9, 7),new Fraction(0, 1),new Fraction(3, 7),new Fraction(2, 7),new Fraction(2, 7)},
-                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(1, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1)},
-                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(1, 1),new Fraction(0, 1),new Fraction(0, 1)},
-                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(1, 1),new Fraction(0, 1)},
-                {new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(0, 1),new Fraction(1, 1)}};
-
-        Assertions.assertArrayEquals(expectedInverseMatrix,inverseMatrix);
     }
 }
